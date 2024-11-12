@@ -39,7 +39,7 @@ function LocationMarker({ setCoordinates }: { setCoordinates: (coordinates: L.La
     return null;
 }
 
-export default function OcurrenceRegister() {
+export default function OccurrenceRegister() {
     const router = useRouter();
     const [selectedType, setSelectedType] = useState("tipo1");
     const [coordinates, setCoordinates] = useState<L.LatLng | null>(null);
@@ -130,7 +130,7 @@ export default function OcurrenceRegister() {
                 longitude: coordinates.lng,
             };
 
-            const response = await fetch("http://localhost:8000/api/ocorrencia/", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ocorrencia/`, {
                 method: "POST",
                 headers: {
                     accept: "application/json",
@@ -153,7 +153,7 @@ export default function OcurrenceRegister() {
                     formData.append("midias", file);
                 });
 
-                const mediaResponse = await fetch(`http://localhost:8000/api/midia/?ocorrencia_id=${occurrenceId}&tipo=image`, {
+                const mediaResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/midia/?ocorrencia_id=${occurrenceId}&tipo=image`, {
                     method: "POST",
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -172,7 +172,7 @@ export default function OcurrenceRegister() {
             }
 
             toast.success("Ocorrência registrada com sucesso!", { id: loadingToast });
-            router.push("/ocurrences");
+            router.push("/occurrences");
         } catch (error) {
             toast.error("Erro ao registrar ocorrência", { id: loadingToast });
             console.error("Error creating occurrence:", error);

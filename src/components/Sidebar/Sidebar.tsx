@@ -26,8 +26,8 @@ export default function Sidebar() {
                 <Link href="/">
                     <SidebarItem active={url === "/"} name="Home" icon={<FaHouse fontSize={32} />} />
                 </Link>
-                <Link href="/ocurrences">
-                    <SidebarItem active={url === "/ocurrences"} name="Ocorrências" icon={<FaTriangleExclamation fontSize={30} />} />
+                <Link href="/occurrences">
+                    <SidebarItem active={url === "/occurrences"} name="Ocorrências" icon={<FaTriangleExclamation fontSize={30} />} />
                 </Link>
                 <Link href="/register">
                     <SidebarItem active={url === "/register"} name="Registrar" icon={<FaFileSignature fontSize={32} />} />

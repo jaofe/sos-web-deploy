@@ -42,7 +42,7 @@ const statusOptions = {
     finished: "Ocorrência Finalizada",
 };
 
-export default function OcurrencePage({ params }: { params: { id: string } }) {
+export default function OccurrencePage({ params }: { params: { id: string } }) {
     const [isEndModalOpen, setIsEndModalOpen] = useState<boolean>(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -52,7 +52,7 @@ export default function OcurrencePage({ params }: { params: { id: string } }) {
     const handleEndOccurrence = async () => {
         const loadingToast = toast.loading("Finalizando ocorrência...");
         try {
-            const response = await fetch(`http://localhost:8000/api/ocorrencia/${params.id}/finalizar`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ocorrencia/${params.id}/finalizar`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export default function OcurrencePage({ params }: { params: { id: string } }) {
 
         const loadingToast = toast.loading("Atualizando ocorrência...");
         try {
-            const response = await fetch("http://localhost:8000/api/feedback/", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/feedback/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export default function OcurrencePage({ params }: { params: { id: string } }) {
 
             const fetchOccurrence = async () => {
                 try {
-                    const response = await fetch(`http://localhost:8000/api/ocorrencia/${params.id}/`);
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ocorrencia/${params.id}/`);
                     if (!response.ok) {
                         throw new Error("Failed to fetch occurrence");
                     }
@@ -126,7 +126,7 @@ export default function OcurrencePage({ params }: { params: { id: string } }) {
     const handleDeleteOccurrence = async () => {
         const loadingToast = toast.loading("Deletando ocorrência...");
         try {
-            const response = await fetch(`http://localhost:8000/api/ocorrencia/${params.id}/`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ocorrencia/${params.id}/`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -140,7 +140,7 @@ export default function OcurrencePage({ params }: { params: { id: string } }) {
 
             toast.success("Ocorrência deletada com sucesso!", { id: loadingToast });
             setIsDeleteModalOpen(false);
-            router.push("/ocurrences");
+            router.push("/occurrences");
         } catch (error) {
             toast.error("Erro ao deletar ocorrência", { id: loadingToast });
         }
@@ -149,7 +149,7 @@ export default function OcurrencePage({ params }: { params: { id: string } }) {
     useEffect(() => {
         const fetchOccurrence = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/ocorrencia/${params.id}/`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ocorrencia/${params.id}/`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch occurrence");
                 }

@@ -65,7 +65,7 @@ const Home = () => {
     useEffect(() => {
         const fetchAdminUsers = async () => {
             try {
-                const response = await fetch("http://localhost:8000/api");
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`);
                 if (!response.ok) {
                     throw new Error("Erro ao buscar usuários");
                 }
@@ -80,11 +80,11 @@ const Home = () => {
         const fetchDashboardData = async () => {
             try {
                 const [accessResponse, occurrenceResponse, likeResponse, pieResponse, monthlyResponse] = await Promise.all([
-                    fetch("http://localhost:8000/api/dashboard/sessions-card"),
-                    fetch("http://localhost:8000/api/dashboard/ocorrencias-card"),
-                    fetch("http://localhost:8000/api/dashboard/curtidas-card"),
-                    fetch("http://localhost:8000/api/dashboard/pie-chart"),
-                    fetch("http://localhost:8000/api/dashboard/monthly-chart"),
+                    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/sessions-card`),
+                    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/ocorrencias-card`),
+                    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/curtidas-card`),
+                    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/pie-chart`),
+                    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/monthly-chart`),
                 ]);
 
                 if (!accessResponse.ok || !occurrenceResponse.ok || !likeResponse.ok || !pieResponse.ok || !monthlyResponse.ok) {

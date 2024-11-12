@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 
 const titleMap: Record<string, string> = {
     "/": "Dashboard",
-    "/ocurrences": "Tabela de Ocorrências",
-    "/ocurrences/*": "Detalhes da Ocorrência", // TODO: use regex to accept any path after ocurrences
+    "/occurrences": "Tabela de Ocorrências",
+    "/occurrences/*": "Detalhes da Ocorrência", // TODO: use regex to accept any path after occurrences
     "/register": "Registrar Ocorrência",
     "/config": "Configurações",
 };
@@ -19,14 +19,14 @@ export default function Header() {
     const pathname = usePathname();
     const title = titleMap[pathname as keyof typeof titleMap];
 
-    const [nome, setNome] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
             if (token) {
                 try {
-                    const response = await fetch("http://localhost:8000/api/me", {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/me`, {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ export default function Header() {
                     }
 
                     const data = await response.json();
-                    setNome(data.nome); // Assuming the response contains a "nome" field
+                    setUsername(data.username); // Assuming the response contains a "username" field
                     localStorage.setItem("id", data.id);
                 } catch (error) {
                     toast.error("Erro ao buscar dados do usuário");
@@ -58,7 +58,7 @@ export default function Header() {
             <span className="text-black text-2xl font-medium">{title}</span>
             <div className="flex flex-row gap-2 items-center">
                 <FaUserCircle fontSize={40} color="orange" />
-                <span>{nome}</span>
+                <span>{username}</span>
             </div>
         </div>
     );
