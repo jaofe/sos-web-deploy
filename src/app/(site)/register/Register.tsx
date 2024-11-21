@@ -2,32 +2,14 @@
 
 import ActionButton from "@/components/ActionButton";
 import React, { useState, useEffect } from "react";
-import { FaCheck, FaChevronDown, FaUpload } from "react-icons/fa";
-import { FaWater, FaFire, FaTree, FaQuestionCircle, FaSearch } from "react-icons/fa";
+import { FaCheck, FaChevronDown, FaUpload, FaSearch } from "react-icons/fa";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
-const icons = {
-    tipo2: {
-        icon: <FaWater color="white" size={24} />,
-        color: "bg-[#007BFF]",
-    },
-    tipo1: {
-        icon: <FaFire color="white" size={24} />,
-        color: "bg-[#FF5733]",
-    },
-    tipo3: {
-        icon: <FaTree color="white" size={24} />,
-        color: "bg-[#28A745]",
-    },
-    outros: {
-        icon: <FaQuestionCircle color="white" size={24} />,
-        color: "bg-[#6C757D]",
-    },
-};
+import Image from "next/image";
+import { icons } from "@/constants/Icons";
 
 function LocationMarker({ setCoordinates }: { setCoordinates: (coordinates: L.LatLng) => void }) {
     useMapEvents({
@@ -41,7 +23,7 @@ function LocationMarker({ setCoordinates }: { setCoordinates: (coordinates: L.La
 
 export default function OccurrenceRegister() {
     const router = useRouter();
-    const [selectedType, setSelectedType] = useState("tipo1");
+    const [selectedType, setSelectedType] = useState("alagamentos");
     const [coordinates, setCoordinates] = useState<L.LatLng | null>(null);
     const [address, setAddress] = useState("");
     const [description, setDescription] = useState("");
@@ -92,7 +74,17 @@ export default function OccurrenceRegister() {
         try {
             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}`);
             const data = await response.json();
-            setAddress(data.display_name);
+
+            let address = `${data.address.road || ""}, ${data.address.neighbourhood || ""}, ${data.address.suburb || ""}, ${data.address.city || ""}, ${data.address.postcode || ""}`;
+
+            address = address.replace(", , ", ", "); // if one is empty, try to remove the ", ,"
+
+            if (address.startsWith(", ")) {
+                address = address.substring(2);
+            }
+
+            setAddress(address);
+
             toast.success("Endereço encontrado!", { id: loadingToast });
         } catch (error) {
             toast.error("Erro ao buscar endereço", { id: loadingToast });
@@ -211,14 +203,23 @@ export default function OccurrenceRegister() {
                             Tipo de Ocorrência*:
                         </label>
                         <div className="relative">
-                            <div className={`absolute left-3 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded ${icons[selectedType as keyof typeof icons].color}`}>
-                                {icons[selectedType as keyof typeof icons].icon}
+                            <div className={`absolute left-4 top-1/2 transform -translate-y-1/2 z-10 rounded bg-white`}>
+                                <Image src={icons[selectedType as keyof typeof icons].icon} alt="Disaster icon" width={40} height={40} />
                             </div>
                             <select id="type-input" className="relative w-full bg-white h-16 text-lg rounded-lg px-6 pl-16 appearance-none" value={selectedType} onChange={handleSelectChange}>
-                                <option value="tipo1">Incêndio</option>
-                                <option value="tipo2">Inundação</option>
-                                <option value="tipo3">Queda de Árvore</option>
-                                <option value="outros">Outros</option>
+                                <option value="alagamentos">Alagamentos</option>
+                                <option value="colapso_barragens">Colapso de Barragens</option>
+                                <option value="colapso_edificios">Colapso de Edifícios</option>
+                                <option value="colapso_solo">Colapso de Solo</option>
+                                <option value="deslizamentos">Deslizamentos</option>
+                                <option value="enxurradas">Enxurradas</option>
+                                <option value="erosao_costeira">Erosão Costeira</option>
+                                <option value="erosao_margem_fluvial">Erosão de Margem Fluvial</option>
+                                <option value="inundacoes">Inundações</option>
+                                <option value="liberacao_quimicos">Liberação de Químicos</option>
+                                <option value="tempestade_raios">Tempestade de Raios</option>
+                                <option value="tombamentos_rolamentos">Tombamentos e Rolamentos</option>
+                                <option value="tremor_terra">Tremor de Terra</option>
                             </select>
                             <FaChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500" />
                         </div>
@@ -226,7 +227,7 @@ export default function OccurrenceRegister() {
                     <div className="flex flex-col gap-4 w-full">
                         <div className="flex flex-col gap-2 w-full">
                             <label htmlFor="description-input" className="text-[#000] text-2xl font-normal">
-                                Descrição*:
+                                Descrição:
                             </label>
                             <textarea
                                 id="description-input"
@@ -240,7 +241,7 @@ export default function OccurrenceRegister() {
                     </div>
                     <div className="flex flex-col gap-4 w-full">
                         <div className="flex flex-col gap-2 w-full">
-                            <span className="text-[#000] text-2xl font-normal">Anexos de Mídia*: </span>
+                            <span className="text-[#000] text-2xl font-normal">Anexos de Mídia: </span>
                             <div className="relative">
                                 <input type="file" id="file-input" className="hidden z-20" multiple onChange={handleFileChange} />
                                 <FaUpload color="#505050" fontSize={18} className="absolute left-6 top-1/2 transform -translate-y-1/2" />
