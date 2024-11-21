@@ -197,38 +197,38 @@ export default function OccurrencePage({ params }: { params: { id: string } }) {
                             </MapContainer>
                         </div>
                         <div className="flex flex-col gap-2 flex-1">
-                            <span className="flex gap-4">
-                                <span className="font-semibold text-lg">Tipo:</span>
+                            <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
+                                <span className="font-bold text-lg">Tipo:</span>
                                 <span className="text-lg">{occurrenceData.tipo === "tipo1" ? "Incêndio" : occurrenceData.tipo === "tipo2" ? "Inundação" : "Queda de Árvore"}</span>
                             </span>
-                            <span className="flex flex-col gap-2">
-                                <span className="font-semibold text-lg">Localização:</span>
+                            <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
+                                <span className="font-bold text-lg">Localização:</span>
                                 <p className="text-justify text-lg">{occurrenceData.bairro}</p>
                             </span>
-                            <span className="flex gap-4">
-                                <span className="font-semibold text-lg">Coordenadas:</span>
+                            <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
+                                <span className="font-bold text-lg">Coordenadas:</span>
                                 <span className="text-lg">
                                     {occurrenceData.latitude}, {occurrenceData.longitude}
                                 </span>
                             </span>
-                            <span className="flex gap-4">
-                                <span className="font-semibold text-lg">Curtidas:</span>
+                            <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
+                                <span className="font-bold text-lg">Curtidas:</span>
                                 <p className="text-justify text-lg">{occurrenceData.curtidas_count}</p>
                             </span>
-                            <span className="flex gap-4">
-                                <span className="font-semibold text-lg">Criado em:</span>
+                            <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
+                                <span className="font-bold text-lg">Criado em:</span>
                                 <span className="text-lg">{new Date(occurrenceData.data_registro).toLocaleString()}</span>
                             </span>
-                            <span className="flex gap-4">
-                                <span className="font-semibold text-lg">Atualizado em:</span>
+                            <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
+                                <span className="font-bold text-lg">Atualizado em:</span>
                                 <span className="text-lg">{new Date(occurrenceData.ultima_atualizacao).toLocaleString()}</span>
                             </span>
-                            <span className="flex flex-col gap-2">
-                                <span className="font-semibold text-lg">Descrição:</span>
+                            <span className="flex flex-col gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
+                                <span className="font-bold text-lg">Descrição:</span>
                                 <p className="text-justify text-lg">{occurrenceData.descricao}</p>
                             </span>
                             <span className="flex flex-col gap-2">
-                                <span className="font-semibold text-lg">Anexos:</span>
+                                <span className="font-bold bg-[#4B77CC] text-white rounded-lg p-2 text-lg">Anexos:</span>
                                 <div className="flex flex-col gap-2">
                                     <div className="flex gap-2">
                                         {occurrenceData.midias.map((midia) => (

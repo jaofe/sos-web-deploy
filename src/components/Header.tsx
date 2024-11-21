@@ -39,7 +39,7 @@ export default function Header() {
                     }
 
                     const data = await response.json();
-                    setUsername(data.username); // Assuming the response contains a "username" field
+                    setUsername(data.nome); // Assuming the response contains a "username" field
                     localStorage.setItem("id", data.id);
                 } catch (error) {
                     toast.error("Erro ao buscar dados do usuário");

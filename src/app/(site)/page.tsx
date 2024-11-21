@@ -7,6 +7,7 @@ import { Pie, Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from "chart.js";
 import { toast } from "react-hot-toast";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { icons } from "@/constants/Icons";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
@@ -17,13 +18,14 @@ interface User {
 }
 
 interface ChartDataItem {
-    tipo: string;
+    tipo: keyof typeof icons;
     count: number;
 }
 
 interface MonthlyChartItem {
-    month: string;
-    year: string;
+    tipo: keyof typeof icons;
+    year: number;
+    month: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
     count: number;
 }
 
@@ -34,6 +36,21 @@ interface PieChartData {
 interface MonthlyChartData {
     data: MonthlyChartItem[];
 }
+
+const monthNames = {
+    1: "Janeiro",
+    2: "Fevereiro",
+    3: "Março",
+    4: "Abril",
+    5: "Maio",
+    6: "Junho",
+    7: "Julho",
+    8: "Agosto",
+    9: "Setembro",
+    10: "Outubro",
+    11: "Novembro",
+    12: "Dezembro",
+};
 
 const Home = () => {
     const [adminUsers, setAdminUsers] = useState<User[]>([]);
@@ -57,7 +74,14 @@ const Home = () => {
         labels: [],
         datasets: [],
     });
-    const [barData, setBarData] = useState<{ labels: string[]; datasets: { label: string; data: number[]; backgroundColor: string }[] }>({
+    const [barData, setBarData] = useState<{
+        labels: string[];
+        datasets: {
+            label: string;
+            data: number[];
+            backgroundColor: string;
+        }[];
+    }>({
         labels: [],
         datasets: [],
     });
@@ -114,7 +138,7 @@ const Home = () => {
                 setLastWeekLikes(likeData.lastWeekPercent);
 
                 setPieData({
-                    labels: pieChartData.data.map((item) => item.tipo),
+                    labels: pieChartData.data.map((item) => icons[item.tipo].name),
                     datasets: [
                         {
                             label: "Ocorrências por Tipo",
@@ -124,15 +148,28 @@ const Home = () => {
                     ],
                 });
 
+                const groupedData = new Map<string, Map<string, number>>();
+                const types = new Set<string>();
+
+                monthlyChartData.data.forEach((item) => {
+                    const monthKey = `${monthNames[item.month]}/${item.year}`;
+                    if (!groupedData.has(monthKey)) {
+                        groupedData.set(monthKey, new Map());
+                    }
+                    groupedData.get(monthKey)?.set(icons[item.tipo].name, item.count);
+                    types.add(icons[item.tipo].name);
+                });
+
+                const labels = Array.from(groupedData.keys());
+                const datasets = Array.from(types).map((type, index) => ({
+                    label: type,
+                    data: labels.map((month) => groupedData.get(month)?.get(type) || 0),
+                    backgroundColor: `rgba(${54 + index * 40}, ${162 - index * 20}, ${235 - index * 30}, 0.6)`,
+                }));
+
                 setBarData({
-                    labels: monthlyChartData.data.map((item) => `${item.month}/${item.year}`),
-                    datasets: [
-                        {
-                            label: "Ocorrências Mensais",
-                            data: monthlyChartData.data.map((item) => item.count),
-                            backgroundColor: "rgba(54, 162, 235, 0.6)",
-                        },
-                    ],
+                    labels,
+                    datasets,
                 });
             } catch (error) {
                 console.error("Erro ao buscar dados do dashboard:", error);
@@ -248,7 +285,27 @@ const Home = () => {
                     <div className="flex flex-col w-1/2">
                         <span className="bg-[#4B77CC] text-white px-4 py-2 rounded-t-2xl text-lg font-semibold">Ocorrências de desastres no meses do ano</span>
                         <div className="max-h-96 flex justify-center items-center bg-white rounded-b-2xl py-4">
-                            <Bar data={barData} />
+                            <Bar
+                                data={barData}
+                                options={{
+                                    responsive: true,
+                                    scales: {
+                                        x: {
+                                            stacked: false,
+                                        },
+                                        y: {
+                                            ticks: {
+                                                callback: function (tickValue: string | number) {
+                                                    if (typeof tickValue === "number" && Number.isInteger(tickValue)) {
+                                                        return tickValue;
+                                                    }
+                                                    return "";
+                                                },
+                                            },
+                                        },
+                                    },
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
