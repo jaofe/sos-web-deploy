@@ -129,13 +129,13 @@ const Home = () => {
                 setDailyOccurrences(occurrenceData.today);
                 setDailyLikes(likeData.today);
 
-                setYesterdayAccesses(accessData.yesterdayPercent);
-                setYesterdayOccurrences(occurrenceData.yesterdayPercent);
-                setYesterdayLikes(likeData.yesterdayPercent);
+                setYesterdayAccesses(accessData.yesterdayPercent.toFixed(2));
+                setYesterdayOccurrences(occurrenceData.yesterdayPercent.toFixed(2));
+                setYesterdayLikes(likeData.yesterdayPercent.toFixed(2));
 
-                setLastWeekAccesses(accessData.lastWeekPercent);
-                setLastWeekOccurrences(occurrenceData.lastWeekPercent);
-                setLastWeekLikes(likeData.lastWeekPercent);
+                setLastWeekAccesses(accessData.lastWeekPercent.toFixed(2));
+                setLastWeekOccurrences(occurrenceData.lastWeekPercent.toFixed(2));
+                setLastWeekLikes(likeData.lastWeekPercent.toFixed(2));
 
                 setPieData({
                     labels: pieChartData.data.map((item) => icons[item.tipo].name),

@@ -233,7 +233,7 @@ export default function OccurrencePage({ params }: { params: { id: string } }) {
                                     <div className="flex gap-2">
                                         {occurrenceData.midias.map((midia) => (
                                             <div key={midia} className="bg-[#4B77CC] rounded-lg p-2 w-fit">
-                                                <Link href={`http://localhost:8000${midia}`} target="_blank">
+                                                <Link href={`${process.env.NEXT_PUBLIC_API_URL}${midia}`} target="_blank">
                                                     <FaPaperclip color="white" size={20} />
                                                 </Link>
                                             </div>
