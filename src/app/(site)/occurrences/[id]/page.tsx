@@ -11,6 +11,7 @@ import "leaflet/dist/leaflet.css";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { icons } from "@/constants/Icons";
 
 interface Feedback {
     titulo: string;
@@ -199,7 +200,7 @@ export default function OccurrencePage({ params }: { params: { id: string } }) {
                         <div className="flex flex-col gap-2 flex-1">
                             <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
                                 <span className="font-bold text-lg">Tipo:</span>
-                                <span className="text-lg">{occurrenceData.tipo === "tipo1" ? "Incêndio" : occurrenceData.tipo === "tipo2" ? "Inundação" : "Queda de Árvore"}</span>
+                                <span className="text-lg">{icons[occurrenceData.tipo as keyof typeof icons].name}</span>
                             </span>
                             <span className="flex gap-2 bg-[#4B77CC] text-white rounded-lg p-2">
                                 <span className="font-bold text-lg">Localização:</span>

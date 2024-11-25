@@ -57,7 +57,7 @@ export default function Header() {
         <div className="flex justify-between items-center bg-white text-black w-full px-8 py-4">
             <span className="text-black text-2xl font-medium">{title}</span>
             <div className="flex flex-row gap-2 items-center">
-                <FaUserCircle fontSize={40} color="orange" />
+                <FaUserCircle fontSize={40} color="#FFA500" />
                 <span>{username}</span>
             </div>
         </div>

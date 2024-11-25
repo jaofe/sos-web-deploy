@@ -189,7 +189,7 @@ const Home = () => {
                 </span>
                 <div className="flex items-center ml-4 px-8">
                     {adminUsers.slice(0, 4).map((user, index) => (
-                        <FaUserCircle key={index} fontSize={50} color="orange" className="-mr-3" />
+                        <FaUserCircle key={index} fontSize={50} color={["#FFA500", "#F47560", "#61CDBB", "#E8C1A0"][index]} className="-mr-3" />
                     ))}
                     {adminUsers.length > 4 && <span className="bg-blue-500 text-white px-3.5 py-3 rounded-full -mr-3">+{adminUsers.length - 4}</span>}
                 </div>
