@@ -317,8 +317,8 @@ export default function Occurrences() {
                                             <th className="py-[10px] rounded-tl-2xl">Tipo</th>
                                             <th className="py-[10px]">Localização</th>
                                             <th className="py-[10px]">Última Atualização</th>
-                                            <th className="py-[10px]">Autor</th>
                                             <th className="py-[10px]">Criado em</th>
+                                            <th className="py-[10px]">Autor</th>
                                             <th className="py-[10px]">Curtidas</th>
                                             <th className="py-[10px]">Anexo</th>
                                             <th className="py-[10px] rounded-tr-2xl">Ações</th>

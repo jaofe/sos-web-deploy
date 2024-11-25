@@ -279,7 +279,7 @@ const Home = () => {
                     <div className="flex flex-col w-1/2">
                         <span className="bg-[#4B77CC] text-white px-4 py-2 rounded-t-2xl text-lg font-semibold">Ocorrências de desastres por tipos</span>
                         <div className="max-h-96 flex justify-center items-center bg-white rounded-b-2xl py-4">
-                            <Pie data={pieData} />
+                            <Pie data={pieData} width={500} height={800} options={{ maintainAspectRatio: false }} />
                         </div>
                     </div>
                     <div className="flex flex-col w-1/2">
